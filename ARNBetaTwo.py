@@ -23,13 +23,12 @@ st.title("Welcome to the ARNie interface!")
 st.header("Select from the options below to generate briefs")
 st.write("Hello, my name is the Automated Routing Network planning system, \nbut you can call me ARNie.\n")
 
-st.write("I am programmed to help you efficiently automate the process of planning briefs.\n By scanning the trillion trillion combinations of possible briefs,")
-st.write("I can find the best combinations of routes and sites to generate optimal briefs that fit your specifications.")
+st.write("I am programmed to help you efficiently automate the process of planning briefs. By scanning the trillion trillion combinations of possible briefs, I can find the best combinations of routes and sites to generate optimal briefs that fit your specifications.")
 
 st.write("Okay, to proceed, here is what I will need:")
-st.write("(1) An .xlsx spreadsheet which containes the full incharge data (booked and non booked) usually called 'Combined-Digital-Timings...'\n")
-st.write("(2) All the bookingIds as provided by Ark as a csv, usually caked 'ark-image-combined'...\n")
-st.write("(3) Five minutes of your time, :)\n")
+st.write(">(1) An .xlsx spreadsheet which containes the full incharge data (booked and non booked) usually called 'Combined-Digital-Timings...'\n")
+st.write(">(2) All the bookingIds as provided by Ark as a csv, usually caked 'ark-image-combined'...\n")
+st.write(">(3) Five minutes of your time, :)\n")
 st.write("If these criteria are met, we are ready to proceed...")
 
 combo = st.file_uploader("Upload Site List 'Combined...'")
