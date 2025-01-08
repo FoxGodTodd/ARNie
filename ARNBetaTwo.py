@@ -1,4 +1,4 @@
-#ARN Alpa Version with kinetic and bigboy
+#ARN beta Version with bigboy and interface
 import pandas as pd
 import pydeck as pdk
 from pydeck.types import String
@@ -7,12 +7,8 @@ import streamlit as st
 import string
 from geopy import distance
 import csv
-import warnings
-import itertools
-import threading
 import time as Time
 import datetime as dt
-import sys
 import cutout as cutout
 from AddInBigBoy import update_location_data as BigBoyLayer
 
@@ -21,14 +17,12 @@ weekfull = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunda
 slot = ["T1","T2","T3","T4","T5","T6","T7","T8","T9","T10","T11","T12"]
 nowtime= str(dt.datetime.now().time())
 bettertime = nowtime[:5].replace(':','')
-warnings.simplefilter(action='ignore', category=FutureWarning)
 
 st.set_page_config(layout="wide")
 #st.image('ARNbanner2.png',use_column_width=True)
 st.title("Welcome to the ARNie interface!")
 st.header("Select from the options to generate briefs")
 st.write("Hello, my name is the Automated Routing Network planning system, \nbut you can call me ARNie.\n")
-#st.image('ARNlogo2.png',use_column_width=True)
 
 combo = st.file_uploader("Upload Site List 'Combined...'")
 Ark = st.file_uploader("Upload Ark-image requests...")
@@ -106,7 +100,6 @@ def makeChart(chart_data):
 	chart_data['Map Label']= list(chart_data.index.values)
 	lenBrief = len(chart_data.index.values)
 	chart_data.index.rename('Map',inplace=True)
-	#st.map(chart_data,latitude='Latitude',longitude='Longitude',color=(0,40,200),size=100)
 	
 	st.pydeck_chart(
 		pdk.Deck(
@@ -194,9 +187,6 @@ Arkdf.index.rename('Booking Ref', inplace=True)
 Bookingfilter = list(Arkdf.index.values) 
 
 Weeks = dfx['mondayOfWeek'].unique()
-#print("   Week 1:       Week 2: ")
-#print(Weeks)
-#weekIndex= int(input('\nPlease type incharge week (1 or 2): '))
 Date = [Weeks[weekIndex-1]]
 
 dayStarts = [] 
@@ -206,9 +196,6 @@ for y in range(0,12*len(choiceDigit),12):
 
 Location = [str(location)]
 result = dfx[dfx['mondayOfWeek'].isin(Date)&dfx['bookingRef'].isin(Bookingfilter)&dfx['tvArea'].isin(Location)]
-
-#shotBookingFilter = Airtable.excludedBookings()
-#result = result[~result['bookingRef'].isin(shotBookingfilter)]
 
 result = BigBoyLayer(result,BigBoy)		
 
@@ -320,12 +307,6 @@ def find_distance(coords1,coords2):
 
 def calculate_rank(distance, bookingsN, bookings):
 	priority = 0
-	#print(type(bookings))
-	#bookings = np.array(bookings)
-	#if(isinstance(bookings,list) or isinstance(bookings,np.ndarray)):
-	#	for b in range(1,len(bookings)):
-	#		p = Arkdf.at[bookings[b],"Priority"]
-	#		priority+=p
 	a = 1
 	b = 1
 	c = 1.5/(bookingsN+1)
@@ -414,9 +395,6 @@ def initialSort(dfNew,dfTwo,currentTime,slotIndex,loclist):
 	timeSlot = dayweeks[slotIndex]
 	dfTwo_sorted = dfTwo.sort_values(by=[timeSlot],ascending=False)
 	picks = dfTwo_sorted.index[0:5]
-	#print('Here are the (highest shot) choices for the starting site: ')
-	#print(np.array(picks))
-	#pickChoice = int(input('Choose your first site (1 - 5): '))
 	pickChoice = 1
 	pick = picks[(pickChoice)-1]
 	currentTime, add_test,switch_Test,addedtime,traveltime = clock(currentTime,int(dfTwo_sorted.at[pick,timeSlot]),0)
@@ -530,18 +508,12 @@ for i in range(M):
 	if(totalbookings<len(UniqueBooks)):
 		dfNew,dfTwo,brief,picks,time,bookings,slotIndex,loclist = initialSort(dfNew,dfTwo,0,slotIndex,loclist)
 		currentTime = quicktime(time,currentTime)
-		#print("Times these bookings are active (first): ", dayweeks[slotIndex],dayweeks[slotIndex+1])
 		bookingsList.append(bookings)
 		while(time <= 460 and len(brief) <= brieflength and len(bookingsList[-1])!=0):
-			#print('Site ', len(brief),': ',brief[-1],'             ')
 			progress_bar(len(brief),brieflength)
 			my_bar.progress(int(100*(len(brief)/brieflength)),text=f'Generating Brief {i+1}/{M}...')
 			dfNew,dfTwo,brief,time,slotIndex,bookings,loclist = do_sorting(dfNew,dfTwo,brief,time,slotIndex,initialIndex,loclist)
 			currentTime = quicktime(time,currentTime)
-			#if(slotIndex < 41):
-			#print("Times these bookings are active: ", dayweeks[slotIndex],dayweeks[slotIndex+1])
-			#print(" "*30)
-			#print(currentTime[-1])
 			bookingsList.append(bookings)
 			dfTwo["rank"] = 0
 		my_bar.empty()
@@ -634,10 +606,8 @@ for i in range(M):
 	dfFinal2 = dfFinal[["Brand","Format","Address","Coordinates","Postcode","File Name", "Notes","Site Number","Media Owner","Panel Code","Booking IDs"]]
 	st.dataframe(dfFinal2, use_container_width=True)
 	makeChart(dfFinal[['Site Number','Address','Postcode','Brand','Latitude','Longitude']]) 
-	#dfFinal.to_csv(f"{bettertime}Brief{i+1}{weekfull[int(dayStarts[i]/12)]}S{len(dfFinal['Brand'])}L{len(dfFinal['Site Number'].unique())}.xlsx")
 
 Arkdf = Arkdf[~Arkdf['Image Requests'].isin([0])]
-#arkcsv = Arkdf.to_csv().encode('utf-8')
 print(f"Bookings captured: {totalbookings} out of {allShotsinWeek}")
 st.header(f"Bookings captured: {totalbookings} out of {allShotsinWeek} this week, with {M} briefs.")
 st.write("Download Remaining Image Requests for JCD campaigns")
@@ -652,4 +622,3 @@ percent = np.trunc(100*totalbookings/allShotsinWeek)
 percenttotal = np.trunc(100*totalbookings/totalUniqueBooks)
 print(f'We have {percent}% of bookings for this week.')
 print(f'and we have {percenttotal}% of bookings for the whole incharge.')
-#st.download_button("Download Remaining Image Requests",arkcsv,f"ark-image-processed-{bettertime}.csv")
