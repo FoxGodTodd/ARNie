@@ -63,7 +63,7 @@ location = st.selectbox(
 
 greenlist = st.multiselect(
             "Select usable Sites Based on Standing Permits", 
-            ('BLACKFRIARS','VICTORIA STN',"KING'S CROSS STN",
+            ('BLACKFRIARS','VICTORIA STN','EUSTON STN',"KING'S CROSS STN",
 				'LIVERPOOL STREET STN','ST PANCRAS STN', 'WATERLOO STN',
 				'BLUEWATER CENTRE - DARTFORD','WESTFIELD STRATFORD CITY',
 				'WESTFIELD LONDON','INTU LAKESIDE S/C - THURROCK', 
