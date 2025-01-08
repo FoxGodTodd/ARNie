@@ -19,7 +19,7 @@ nowtime= str(dt.datetime.now().time())
 bettertime = nowtime[:5].replace(':','')
 
 st.set_page_config(layout="wide")
-#st.image('ARNbanner2.png',use_column_width=True)
+st.image('https://github.com/FoxGodTodd/ARNie/raw/main/ARNbanner.png',use_column_width=True)
 st.title("Welcome to the ARNie interface!")
 st.header("Select from the options to generate briefs")
 st.write("Hello, my name is the Automated Routing Network planning system, \nbut you can call me ARNie.\n")
