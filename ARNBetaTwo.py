@@ -23,6 +23,20 @@ st.title("Welcome to the ARNie interface!")
 st.header("Select from the options to generate briefs")
 st.write("Hello, my name is the Automated Routing Network planning system, \nbut you can call me ARNie.\n")
 
+introtxt = '''
+I am programmed to help you efficiently automate the process of planning briefs.\n 
+By scanning the trillion trillion combinations of possible briefs,
+I can find the best combinations of routes and sites to generate optimal briefs that fit your specifications.'''
+setuptxt = '''
+Okay, to proceed, here is what I will need:\n 
+(1) An .xlsx spreadsheet which containes the full incharge data (booked and non booked) usually called 'Combined-Digital-Timings...'\n
+(2) All the bookingIds as provided by Ark as a csv, usually caked 'ark-image-combined'...\n
+(3) Five minutes of your time, :)\n
+If these criteria are met, we are ready to proceed...'''
+
+st.write(introtxt)
+st.write(setuptxt)
+
 combo = st.file_uploader("Upload Site List 'Combined...'")
 Ark = st.file_uploader("Upload Ark-image requests...")
 
@@ -137,17 +151,6 @@ def makeChart(chart_data):
 			],tooltip={"text":"Map: {Map Label}, \nSite Number: {Site Number},\nBrands: {Brand}\nPost Code: {Postcode},\nAddress: {Address}"},
 		)
 	)
-		
-introtxt = '''
-I am programmed to help you efficiently automate the process of planning briefs.\n 
-By scanning the trillion trillion combinations of possible London briefs,
-I can find the best combinations of routes and sites to generate optimal briefs that fit your specifications.'''
-setuptxt = '''
-Okay, to proceed, here is what I will need:\n 
-(1) An .xlsx spreadsheet which containes the full incharge data (booked and non booked) in my directory\n
-(2) All the bookingIds as provided by Ark as a csv, also in the same directory\n
-(3) Five minutes of your time, :)\n
-If these criteria are met, we are ready to proceed...'''
 
 waiting = True
 Arkdf = None
