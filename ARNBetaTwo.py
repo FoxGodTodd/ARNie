@@ -185,9 +185,6 @@ Arkdf.index.rename('Booking Ref', inplace=True)
 Bookingfilter = list(Arkdf.index.values) 
 
 Weeks = dfx['mondayOfWeek'].unique()
-#print("   Week 1:       Week 2: ")
-#print(Weeks)
-#weekIndex= int(input('\nPlease type incharge week (1 or 2): '))
 Date = [Weeks[weekIndex-1]]
 
 dayStarts = [] 
@@ -311,12 +308,6 @@ def find_distance(coords1,coords2):
 
 def calculate_rank(distance, bookingsN, bookings):
 	priority = 0
-	#print(type(bookings))
-	#bookings = np.array(bookings)
-	#if(isinstance(bookings,list) or isinstance(bookings,np.ndarray)):
-	#	for b in range(1,len(bookings)):
-	#		p = Arkdf.at[bookings[b],"Priority"]
-	#		priority+=p
 	a = 1
 	b = 1
 	c = 1.5/(bookingsN+1)
@@ -405,9 +396,6 @@ def initialSort(dfNew,dfTwo,currentTime,slotIndex,loclist):
 	timeSlot = dayweeks[slotIndex]
 	dfTwo_sorted = dfTwo.sort_values(by=[timeSlot],ascending=False)
 	picks = dfTwo_sorted.index[0:5]
-	#print('Here are the (highest shot) choices for the starting site: ')
-	#print(np.array(picks))
-	#pickChoice = int(input('Choose your first site (1 - 5): '))
 	pickChoice = 1
 	pick = picks[(pickChoice)-1]
 	currentTime, add_test,switch_Test,addedtime,traveltime = clock(currentTime,int(dfTwo_sorted.at[pick,timeSlot]),0)
@@ -521,18 +509,12 @@ for i in range(M):
 	if(totalbookings<len(UniqueBooks)):
 		dfNew,dfTwo,brief,picks,time,bookings,slotIndex,loclist = initialSort(dfNew,dfTwo,0,slotIndex,loclist)
 		currentTime = quicktime(time,currentTime)
-		#print("Times these bookings are active (first): ", dayweeks[slotIndex],dayweeks[slotIndex+1])
 		bookingsList.append(bookings)
 		while(time <= 460 and len(brief) <= brieflength and len(bookingsList[-1])!=0):
-			#print('Site ', len(brief),': ',brief[-1],'             ')
 			progress_bar(len(brief),brieflength)
 			my_bar.progress(int(100*(len(brief)/brieflength)),text=f'Generating Brief {i+1}/{M}...')
 			dfNew,dfTwo,brief,time,slotIndex,bookings,loclist = do_sorting(dfNew,dfTwo,brief,time,slotIndex,initialIndex,loclist)
 			currentTime = quicktime(time,currentTime)
-			#if(slotIndex < 41):
-			#print("Times these bookings are active: ", dayweeks[slotIndex],dayweeks[slotIndex+1])
-			#print(" "*30)
-			#print(currentTime[-1])
 			bookingsList.append(bookings)
 			dfTwo["rank"] = 0
 		my_bar.empty()
@@ -624,11 +606,12 @@ for i in range(M):
 	dfFinal.set_index("Map",inplace=True)
 	dfFinal2 = dfFinal[["Brand","Format","Address","Coordinates","Postcode","File Name", "Notes","Site Number","Media Owner","Panel Code","Booking IDs"]]
 	st.dataframe(dfFinal2, use_container_width=True)
-	makeChart(dfFinal[['Site Number','Address','Postcode','Brand','Latitude','Longitude']]) 
-	#dfFinal.to_csv(f"{bettertime}Brief{i+1}{weekfull[int(dayStarts[i]/12)]}S{len(dfFinal['Brand'])}L{len(dfFinal['Site Number'].unique())}.xlsx")
+	if not dfFinal.empty:
+		makeChart(dfFinal[['Site Number','Address','Postcode','Brand','Latitude','Longitude']])
+	else:
+		st.write("I have ran out of sites to make a brief from") 
 
 Arkdf = Arkdf[~Arkdf['Image Requests'].isin([0])]
-#arkcsv = Arkdf.to_csv().encode('utf-8')
 print(f"Bookings captured: {totalbookings} out of {allShotsinWeek}")
 st.header(f"Bookings captured: {totalbookings} out of {allShotsinWeek} this week, with {M} briefs.")
 st.write("Download Remaining Image Requests for JCD campaigns")
@@ -643,4 +626,3 @@ percent = np.trunc(100*totalbookings/allShotsinWeek)
 percenttotal = np.trunc(100*totalbookings/totalUniqueBooks)
 print(f'We have {percent}% of bookings for this week.')
 print(f'and we have {percenttotal}% of bookings for the whole incharge.')
-#st.download_button("Download Remaining Image Requests",arkcsv,f"ark-image-processed-{bettertime}.csv")
