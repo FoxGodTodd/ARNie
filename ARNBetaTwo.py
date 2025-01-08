@@ -155,7 +155,7 @@ if st.button("Submit"):
 		
 		print("starting imports")
 		df_csv = pd.read_csv(Ark)
-		BigBoy = pd.read_excel('https://github.com/FoxGodTodd/ARNie/raw/main/FrameIDLatLon.xlsx')
+		BigBoy = pd.read_excel("https://github.com/FoxGodTodd/KineticPlanner/raw/main/FrameIDLatLon.xlsx")
 		dfx = pd.read_excel(combo)
 		print("Done with Imports!")
 		
