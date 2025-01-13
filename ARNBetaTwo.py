@@ -448,7 +448,7 @@ def do_sorting(dfNew,dfTwo,brief,currentTime,slotIndex,initialIndex,loclist):
 	if(add_test):
 		new_time = int(currentTime+addedTime)
 		brief.append(new_site)
-		loclist.append(str(siteCoords)))
+		loclist.append(str(siteCoords))
 	if(switch_test and slotIndex<(initialIndex+11)):
 		slotIndex += 1
 	if(slotIndex<84 and slotIndex<(initialIndex+11)):
