@@ -437,7 +437,7 @@ def do_sorting(dfNew,dfTwo,brief,currentTime,slotIndex,initialIndex,loclist):
 			dfTwo.at[site,'rank'] = rank
 	dfTwo_sorted2 = dfTwo.sort_values(by=['rank'],ascending=False)
 	new_site = dfTwo_sorted2.index[0]
-	siteCoords = (dfNew.loc[new_site,'latitude'],dfNew.loc[new_site,'longitude'])
+	siteCoords = str(dfNew.loc[new_site,'latitude']+','+str(dfNew.loc[new_site,'longitude'])
 	new_dist = find_distance(currentCoords,siteCoords)
 	if(slotIndex<84):
 		if(slotIndex<(initialIndex+11)):
@@ -448,7 +448,7 @@ def do_sorting(dfNew,dfTwo,brief,currentTime,slotIndex,initialIndex,loclist):
 	if(add_test):
 		new_time = int(currentTime+addedTime)
 		brief.append(new_site)
-		loclist.append(str(siteCoords))
+		loclist.append(siteCoords)
 	if(switch_test and slotIndex<(initialIndex+11)):
 		slotIndex += 1
 	if(slotIndex<84 and slotIndex<(initialIndex+11)):
