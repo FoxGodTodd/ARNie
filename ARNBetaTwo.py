@@ -597,20 +597,21 @@ for i in range(M):
 	notes = [' ']* branLength
 	Media_owner = ['JCDecaux']*branLength
 	Longarray = {"Brand":brands[:branLength],"Format":Format[:branLength],
-					"Address":address[:branLength],"Coordinates":coordslist[:branLength],"Postcode":postcodes[:branLength],
+					"Address":address[:branLength],"Lat":latlist[:branLength],"Long":lonlist[:branLength],"Coordinates":coordslist[:branLength],"Postcode":postcodes[:branLength],
 					"File Name":Filenames[:branLength], "Notes":notes[:branLength],"Site Number":briefbig[:branLength],
 					"Media Owner": Media_owner,"Panel Code": panelcodes[:branLength],"Booking IDs":bestbookings, "Latitude":latlist[:branLength], "Longitude":lonlist[:branLength]}
 	print('Total shots so far: ',len(newbookings))
 	dfFinal = pd.DataFrame(Longarray)
 	postcode_to_letter = {postcode: letter for postcode, letter in zip(dfFinal['Postcode'].unique(), string.ascii_uppercase)}
 	dfFinal['Map'] = dfFinal['Postcode'].map(postcode_to_letter)
+	dfFinal['ROute Frame ID'] = ''
 	dfFinal = dfFinal[~dfFinal["Brand"].isin([' ','','NaN','none'])]
 	Arkdf.index.names = ['Booking Ref']
 	finalcols = dfFinal.columns.tolist()
 	finalcols = finalcols[-1:] + finalcols[:-1]
 	dfFinal = dfFinal[finalcols]
 	dfFinal.set_index("Map",inplace=True)
-	dfFinal2 = dfFinal[["Brand","Format","Address","Coordinates","Postcode","File Name", "Notes","Site Number","Media Owner","Panel Code","Booking IDs"]]
+	dfFinal2 = dfFinal[["Booking IDs","Brand","Format","Route Frame ID", "Site Number","Address","Coordinates","Lat","Long","Postcode","File Name","Panel Code"]]
 	st.dataframe(dfFinal2, use_container_width=True)
 	if not dfFinal.empty:
 		makeChart(dfFinal[['Site Number','Address','Postcode','Brand','Latitude','Longitude']])
