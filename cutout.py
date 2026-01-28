@@ -19,9 +19,9 @@ def removeRailsMalls(filterarray,dfTarget):
 	#dfTarget = pd.DataFrame(pd.read_excel(excel))
 	dfNoMallRail = dfTarget[~dfTarget['businessAreaGroup'].isin(['MALLS','RAIL'])]
 	dfMallRail = dfTarget[(dfTarget['businessAreaGroup'].isin(['RAIL'])&
-					dfTarget['address1'].isin(filterboth) )| 
+					dfTarget['town'].isin(filterboth) )| 
 					(dfTarget['businessAreaGroup'].isin(['MALLS'])&
-					dfTarget['address1'].isin(filterboth))]
+					dfTarget['town'].isin(filterboth))]
 	
 	frames = [dfNoMallRail,dfMallRail]
 	dfboth = pd.concat(frames)
