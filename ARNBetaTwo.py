@@ -205,10 +205,11 @@ result = dfx[dfx['mondayOfWeek'].isin(Date)&dfx['bookingRef'].isin(Bookingfilter
 
 result = BigBoyLayer(result,BigBoy)		
 
-please = result[['bookingRef','furnIndex','address1','address2','address3','sizeCode','photoFileName','postCode','panelCode']]
+please = result[['bookingRef','Old FurnIndex','address1','address2','address3','sizeCode','photoFileName','postCode','panelCode']]
+df = result[['bookingRef','Old FurnIndex','routeFrameID','mondayOfWeek','bookedDaysOfWeek', 'startHour', 'endHour','latitude','longitude']]
 
-df = result[['bookingRef','furnIndex','routeFrameID',
-				'mondayOfWeek','bookedDaysOfWeek', 'startHour', 'endHour','latitude','longitude']]
+please.columns = ['bookingRef','furnIndex','address1','address2','address3','sizeCode','photoFileName','postCode','panelCode']
+df.columns = ['bookingRef','furnIndex','routeFrameID','mondayOfWeek','bookedDaysOfWeek', 'startHour', 'endHour','latitude','longitude']
 
 totalUniqueBooks = Arkdf['Image Requests'].sum()
 UniqueBooks = df['bookingRef'].unique()
@@ -504,7 +505,7 @@ for i in range(M):
 	loclist = []
 	currentTime = ['9:00']
 	time = 0
-	dfTwo["rank"] = 0
+	dfTwo["rank"] = 0.0
 	slotIndex = dayStarts[i]
 	initialIndex = slotIndex
 	print(f'\nBrief: {i+1}')
@@ -522,7 +523,7 @@ for i in range(M):
 			dfNew,dfTwo,brief,time,slotIndex,bookings,loclist = do_sorting(dfNew,dfTwo,brief,time,slotIndex,initialIndex,loclist)
 			currentTime = quicktime(time,currentTime)
 			bookingsList.append(bookings)
-			dfTwo["rank"] = 0
+			dfTwo["rank"] = 0.0
 		my_bar.empty()
 		print('\nHere is the full brief:')
 		summy = 0
