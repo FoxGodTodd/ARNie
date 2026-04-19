@@ -439,6 +439,7 @@ def do_sorting(dfNew,dfTwo,brief,currentTime,slotIndex,initialIndex,loclist):
 		if(tempslot<84):
 			timeSlot = dayweeks[tempslot]	
 			rank = calculate_rank(specialdist,int(dfTwo.loc[site,timeSlot]),dfNew.loc[site,timeSlot])
+			print("site: ",site,"rank: ",rank)
 			dfTwo.at[site,'rank'] = rank
 	dfTwo_sorted2 = dfTwo.sort_values(by=['rank'],ascending=False)
 	new_site = dfTwo_sorted2.index[0]
