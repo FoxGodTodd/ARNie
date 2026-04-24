@@ -314,14 +314,14 @@ def find_distance(coords1,coords2):
 
 def calculate_rank(distance, bookingsN, bookings):
 	priority = 0
-	a = 1
+	a = 100
 	b = 1
 	c = 1.5/(bookingsN+1)
 	if distance != 0:
 		rank = ((a*bookingsN)/(b*distance))+(c*priority)
 	else:
 		rank = a*bookingsN
-	if distance > maxDist: rank = 0
+	if distance > maxDist: rank = 0.0
 	return(rank)
 		
 def doMainLoop(UniqueFrames,df):
